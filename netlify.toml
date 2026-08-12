@@ -1,0 +1,3 @@
+[build]
+  publish = "mentor-rank-app/public"
+  command = ""
