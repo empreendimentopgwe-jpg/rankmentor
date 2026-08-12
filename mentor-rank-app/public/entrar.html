@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Entrar — Classificação de Mentor</title>
+<link rel="stylesheet" href="/styles.css" />
+<script src="/config.js"></script>
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h1>Classificação <span style="color:var(--primary)">de Mentor</span></h1>
+      <p class="sub" id="subtitle">Digite a senha do site e o código da sua subconta NexusPag.</p>
+
+      <label>Senha do site</label>
+      <input id="sitePassword" type="password" placeholder="••••••••" />
+
+      <label>Seu nome</label>
+      <input id="name" type="text" placeholder="Seu nome" />
+
+      <label>Código da sua subconta NexusPag</label>
+      <input id="shopId" type="text" placeholder="ex: 9c29870c-9f69-..." />
+
+      <div class="error-box" id="errorBox"></div>
+
+      <button class="primary" id="submitBtn">Entrar</button>
+    </div>
+  </div>
+
+  <script>
+    const submitBtn = document.getElementById("submitBtn");
+    const errorBox = document.getElementById("errorBox");
+
+    submitBtn.addEventListener("click", async () => {
+      const sitePassword = document.getElementById("sitePassword").value;
+      const name = document.getElementById("name").value.trim();
+      const shopId = document.getElementById("shopId").value.trim();
+
+      errorBox.classList.remove("show");
+
+      if (!name || !shopId) {
+        errorBox.textContent = "Preencha nome e código da subconta.";
+        errorBox.classList.add("show");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Aguarde...";
+
+      try {
+        const res = await fetch(`${window.API_BASE_URL}/api/enter`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-site-password": sitePassword,
+          },
+          body: JSON.stringify({ name, shop_id: shopId }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Não foi possível continuar.");
+        }
+
+        localStorage.setItem("mr_site_password", sitePassword);
+        localStorage.setItem("mr_user", JSON.stringify(data.user));
+        window.location.href = "/";
+      } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.classList.add("show");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Entrar";
+      }
+    });
+  </script>
+</body>
+</html>
