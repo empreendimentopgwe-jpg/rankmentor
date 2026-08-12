@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Classificação de Mentor</title>
+<link rel="stylesheet" href="/styles.css" />
+<script src="/config.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span>CLASSIFICAÇÃO</span> DE MENTOR</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span class="muted" id="userName"></span>
+      <button class="small" id="logoutBtn">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid cols-3" style="margin-bottom:16px;">
+      <div class="card">
+        <div class="eyebrow">Nível atual</div>
+        <div class="value-lg" id="levelValue">—</div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="muted" id="progressLabel" style="margin-top:8px;"></div>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Receita acumulada (real)</div>
+        <div class="value-lg" id="totalRevenue">R$ 0</div>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Sua posição no ranking</div>
+        <div class="value-lg" id="myPosition" style="color:var(--primary)">—</div>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <div class="eyebrow" style="margin-bottom:14px;">Classificação (dados reais)</div>
+        <div id="leaderboardList"></div>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="eyebrow">Verificação de identidade (KYC)</div>
+          <div id="kycStatus" class="kyc-status none">Não iniciada</div>
+          <div style="margin-top:16px;">
+            <label>Documento (CPF/CNPJ)</label>
+            <input id="kycDocument" type="text" placeholder="Somente números" />
+            <label>Tipo de documento</label>
+            <input id="kycDocType" type="text" placeholder="cpf ou cnpj" />
+            <button class="small primary" id="kycSubmit" style="margin-top:14px; width:100%;">Verificar identidade</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="eyebrow">Registrar venda</div>
+          <p class="muted" style="margin-top:6px;">
+            Enquanto você não conecta um gateway de pagamento, registre vendas manualmente aqui — elas entram direto no ranking.
+          </p>
+          <div class="form-row">
+            <input id="saleAmount" type="number" step="0.01" placeholder="Valor em R$" />
+            <button class="small primary" id="saleSubmit">Adicionar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
